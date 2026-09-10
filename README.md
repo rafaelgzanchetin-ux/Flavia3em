@@ -1,2 +1,2 @@
 # Flavia3em
-site sobre acessibilidade para pessoas neuro divergentes 
+site sobre acessibilidade para pessoas neurodivergentes 

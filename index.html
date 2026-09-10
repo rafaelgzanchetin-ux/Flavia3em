@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universo da Dança - Estilos, Histórias e Ritmos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            900: '#831843',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        },
+                        dark: {
+                            800: '#111827',
+                            900: '#0f172a',
+                            950: '#030712'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(131, 24, 67, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ec4899;
+            border-radius: 4px;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-dark-950 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col custom-scrollbar">
+
+    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/80 dark:bg-dark-900/80 border-b border-slate-200 dark:border-slate-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid font-bold fa-compact-disc text-xl animate-spin-slow"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Movimento<span class="text-brand-500">&</span>Arte</span>
+                    <span class="block text-xs text-slate-500 dark:text-slate-400 font-medium">A História dos Estilos de Dança</span>
+                </div>
+            </a>
+
+            <!-- Nav Links Desktop -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#estilos" class="hover:text-brand-500 dark:hover:text-brand-500 transition-colors">Estilos de Dança</a>
+                <a href="#linha-do-tempo" class="hover:text-brand-500 dark:hover:text-brand-500 transition-colors">Linha do Tempo</a>
+                <a href="#simulador" class="hover:text-brand-500 dark:hover:text-brand-500 transition-colors">Sinta o Ritmo</a>
+                <a href="#quiz" class="hover:text-brand-500 dark:hover:text-brand-500 transition-colors">Descubra Seu Estilo</a>
+            </nav>
+
+            <!-- Ações & Theme Toggle -->
+            <div class="flex items-center gap-3">
+                <button id="themeToggle" aria-label="Alternar Tema" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                </button>
+                <a href="#quiz" class="hidden sm:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl shadow-md shadow-brand-600/20 transition-all hover:scale-[1.02]">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                    <span>Quiz de Estilo</span>
+                </a>
+                <button id="mobileMenuBtn" aria-label="Abrir Menu" class="md:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-900 px-4 py-4 space-y-3">
+            <a href="#estilos" class="mobile-link block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 font-medium">Estilos de Dança</a>
+            <a href="#linha-do-tempo" class="mobile-link block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 font-medium">Linha do Tempo</a>
+            <a href="#simulador" class="mobile-link block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 font-medium">Sinta o Ritmo</a>
+            <a href="#quiz" class="mobile-link block px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 font-medium">Quiz de Estilo</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="relative hero-bg py-24 lg:py-36 text-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="max-w-3xl space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/20 border border-brand-400/30 text-brand-300 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+                        <i class="fa-solid fa-shoe-prints text-amber-400"></i>
+                        <span>A linguagem universal do corpo</span>
+                    </div>
+                    <h1 class="font-serif text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight">
+                        A História, a Expressão e os <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-pink-400 to-amber-300">Ritmos da Dança</span>
+                    </h1>
+                    <p class="text-slate-200 text-lg sm:text-xl leading-relaxed">
+                        Explore as origens fascinantes das maiores danças do mundo. Do balé de corte europeu às batalhas de street dance urbanas, descubra a cultura por trás de cada passo.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#estilos" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-500 text-white font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-brand-600/30 transition-all hover:translate-y-[-2px]">
+                            <i class="fa-solid fa-play text-sm"></i>
+                            <span>Explorar Estilos</span>
+                        </a>
+                        <a href="#simulador" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold px-6 py-3.5 rounded-xl border border-white/20 transition-all">
+                            <i class="fa-solid fa-music text-amber-400"></i>
+                            <span>Ouvir Batidas</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Elementos decorativos -->
+            <div class="absolute -bottom-10 right-0 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        </section>
+
+        <section id="estilos" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold">Estilos de Dança pelo Mundo</h2>
+                <p class="text-slate-600 dark:text-slate-400">Filtre por categoria ou pesquise pelo nome para conhecer a fundo a origem de cada modalidade.</p>
+            </div>
+
+            <!-- Filtros e Busca -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
+                <!-- Botões de Categoria -->
+                <div class="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto" id="filterContainer">
+                    <button data-filter="todos" class="filter-btn active px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-brand-600 text-white shadow-md shadow-brand-600/20">Todos</button>
+                    <button data-filter="Classico" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Clássicos</button>
+                    <button data-filter="Urbano" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Urbanos</button>
+                    <button data-filter="Latino" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Latinos & Tradicionais</button>
+                    <button data-filter="Moderno" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Moderno/Contemporâneo</button>
+                </div>
+
+                <!-- Input de Busca -->
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar dança ou país..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-dark-900 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm transition-all">
+                </div>
+            </div>
+
+            <!-- Grid de Cards dos Estilos -->
+            <div id="danceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Inserido dinamicamente via JS -->
+            </div>
+        </section>
+
+        <section id="linha-do-tempo" class="py-20 bg-slate-100 dark:bg-dark-900 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                    <span class="text-brand-600 dark:text-brand-400 font-bold text-xs uppercase tracking-widest">Evolução Cultural</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold">Linha do Tempo da Dança</h2>
+                    <p class="text-slate-600 dark:text-slate-400">A evolução do movimento desde os rituais ancestrais até a era digital.</p>
+                </div>
+
+                <!-- Timeline Items -->
+                <div class="relative border-l-2 border-brand-500/30 ml-4 md:ml-1/2 md:-translate-x-1/2 space-y-12 max-w-4xl mx-auto">
+                    
+                    <!-- Item 1 -->
+                    <div class="relative pl-8 md:pl-0 md:flex items-center group">
+                        <div class="absolute -left-[9px] md:left-1/2 md:-translate-x-1/2 top-1 w-5 h-5 rounded-full bg-brand-600 border-4 border-white dark:border-dark-900 group-hover:scale-125 transition-transform"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right">
+                            <span class="inline-block px-3 py-1 bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300 text-xs font-bold rounded-md mb-2">Pré-História & Antiguidade</span>
+                            <h3 class="text-xl font-bold">Dança Ritualística e Sagrada</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Usada para celebrar colheitas, rituais religiosos e vitórias em batalhas no Egito Antigo, Grécia e civilizações tribais.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative pl-8 md:pl-0 md:flex items-center group">
+                        <div class="absolute -left-[9px] md:left-1/2 md:-translate-x-1/2 top-1 w-5 h-5 rounded-full bg-brand-600 border-4 border-white dark:border-dark-900 group-hover:scale-125 transition-transform"></div>
+                        <div class="md:w-1/2 md:ml-auto md:pl-12">
+                            <span class="inline-block px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs font-bold rounded-md mb-2">Séculos XV - XVII</span>
+                            <h3 class="text-xl font-bold">Surgimento do Balé nas Cortes</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Nasce na Itália renascentista e se formaliza na França sob o reinado do Rei Luís XIV, o "Rei Sol".</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative pl-8 md:pl-0 md:flex items-center group">
+                        <div class="absolute -left-[9px] md:left-1/2 md:-translate-x-1/2 top-1 w-5 h-5 rounded-full bg-brand-600 border-4 border-white dark:border-dark-900 group-hover:scale-125 transition-transform"></div>
+                        <div class="md:w-1/2 md:pr-12 md:text-right">
+                            <span class="inline-block px-3 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-md mb-2">Fim do Séc. XIX e Séc. XX</span>
+                            <h3 class="text-xl font-bold">A Revolução dos Ritmos Populares</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Surgimento do Tango na Argentina, Samba no Brasil e Jazz/Tap Dance nos Estados Unidos, fundindo raízes africanas e europeias.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="relative pl-8 md:pl-0 md:flex items-center group">
+                        <div class="absolute -left-[9px] md:left-1/2 md:-translate-x-1/2 top-1 w-5 h-5 rounded-full bg-brand-600 border-4 border-white dark:border-dark-900 group-hover:scale-125 transition-transform"></div>
+                        <div class="md:w-1/2 md:ml-auto md:pl-12">
+                            <span class="inline-block px-3 py-1 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold rounded-md mb-2">Anos 1970 - Presente</span>
+                            <h3 class="text-xl font-bold">Cultura Hip-Hop e Dança Urbana</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Origem no Bronx (Nova York). Breakdancing, Popping e Locking ganham as ruas como forma de empoderamento e arte urbana mundial.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="simulador" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-slate-900 via-dark-900 to-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-slate-800">
+                <div class="max-w-3xl space-y-4 relative z-10">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-drum"></i> Laboratório de Ritmo
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold">Escute a Batida Característica</h2>
+                    <p class="text-slate-300 text-sm sm:text-base">
+                        Cada dança tem sua assinatura rítmica e andamento (BPM). Clique nos botões abaixo para sintetizar o ritmo característico de cada estilo em tempo real!
+                    </p>
+
+                    <!-- Painel de Ritmos -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6">
+                        <button onclick="playRhythm('samba')" class="rhythm-btn p-4 rounded-2xl bg-white/5 hover:bg-brand-600/30 border border-white/10 hover:border-brand-500 transition-all text-left group">
+                            <i class="fa-solid fa-drum-steelpan text-2xl text-brand-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                            <h4 class="font-bold text-sm">Samba</h4>
+                            <span class="text-xs text-slate-400">100 BPM • 2/4</span>
+                        </button>
+
+                        <button onclick="playRhythm('salsa')" class="rhythm-btn p-4 rounded-2xl bg-white/5 hover:bg-brand-600/30 border border-white/10 hover:border-brand-500 transition-all text-left group">
+                            <i class="fa-solid fa-pepper-hot text-2xl text-amber-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                            <h4 class="font-bold text-sm">Salsa (Clave)</h4>
+                            <span class="text-xs text-slate-400">180 BPM • 4/4</span>
+                        </button>
+
+                        <button onclick="playRhythm('hiphop')" class="rhythm-btn p-4 rounded-2xl bg-white/5 hover:bg-brand-600/30 border border-white/10 hover:border-brand-500 transition-all text-left group">
+                            <i class="fa-solid fa-record-vinyl text-2xl text-pink-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                            <h4 class="font-bold text-sm">Hip-Hop</h4>
+                            <span class="text-xs text-slate-400">90 BPM • Boom Bap</span>
+                        </button>
+
+                        <button onclick="playRhythm('tango')" class="rhythm-btn p-4 rounded-2xl bg-white/5 hover:bg-brand-600/30 border border-white/10 hover:border-brand-500 transition-all text-left group">
+                            <i class="fa-solid fa-heart text-2xl text-red-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                            <h4 class="font-bold text-sm">Tango Habanera</h4>
+                            <span class="text-xs text-slate-400">120 BPM • Marcato</span>
+                        </button>
+                    </div>
+
+                    <!-- Visualizador de Onda Sintetizada -->
+                    <div class="mt-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <button id="stopAudioBtn" onclick="stopRhythm()" class="w-10 h-10 rounded-lg bg-red-600/20 text-red-400 hover:bg-red-600/40 flex items-center justify-center transition-colors">
+                                <i class="fa-solid fa-square"></i>
+                            </button>
+                            <div>
+                                <span id="rhythmStatus" class="block text-sm font-semibold">Selecione um ritmo para ouvir</span>
+                                <span class="text-xs text-slate-400">Sintetizador Web Audio API incorporado</span>
+                            </div>
+                        </div>
+                        <div id="visualBars" class="flex gap-1 h-6 items-end">
+                            <div class="w-1.5 h-2 bg-brand-500 rounded-full transition-all duration-150"></div>
+                            <div class="w-1.5 h-4 bg-brand-500 rounded-full transition-all duration-150"></div>
+                            <div class="w-1.5 h-3 bg-brand-500 rounded-full transition-all duration-150"></div>
+                            <div class="w-1.5 h-6 bg-brand-500 rounded-full transition-all duration-150"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="py-20 bg-slate-100 dark:bg-dark-900 transition-colors">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl border border-slate-200 dark:border-slate-800 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <h2 class="font-serif text-3xl font-bold mb-2">Descubra Seu Estilo de Dança</h2>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm mb-8">Responda a 3 perguntas simples e descubra qual ritmo combina com sua energia!</p>
+
+                    <div id="quizContainer" class="space-y-6 text-left">
+                        <!-- Pergunta 1 -->
+                        <div class="quiz-step" data-step="1">
+                            <h3 class="font-bold text-lg mb-3">1. Que tipo de música você prefere ouvir?</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button onclick="selectAnswer(1, 'classico')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🎼 Orquestrada, instrumental e suave
+                                </button>
+                                <button onclick="selectAnswer(1, 'urbano')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🎧 Batidas graves de Hip-Hop e Pop
+                                </button>
+                                <button onclick="selectAnswer(1, 'latino')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🎺 Percussão vibrante, metais e calor
+                                </button>
+                                <button onclick="selectAnswer(1, 'moderno')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🎹 Música conceitual, Indie ou Eletrônica
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pergunta 2 -->
+                        <div class="quiz-step hidden" data-step="2">
+                            <h3 class="font-bold text-lg mb-3">2. Como você gosta de se movimentar?</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button onclick="selectAnswer(2, 'classico')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🩰 Movimentos leves, graciosos e disciplinados
+                                </button>
+                                <button onclick="selectAnswer(2, 'urbano')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🔥 Movimentos enérgicos, improviso e atitude
+                                </button>
+                                <button onclick="selectAnswer(2, 'latino')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    💃 Dança a dois, com muito gingado e paixão
+                                </button>
+                                <button onclick="selectAnswer(2, 'moderno')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🌊 Expressão livre, sem regras rígidas
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pergunta 3 -->
+                        <div class="quiz-step hidden" data-step="3">
+                            <h3 class="font-bold text-lg mb-3">3. Qual ambiente você mais gosta?</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <button onclick="selectAnswer(3, 'classico')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🏛️ Teatros, salas de concerto e refinamento
+                                </button>
+                                <button onclick="selectAnswer(3, 'urbano')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🏙️ Rodas de rua, festivais urbanos e batalhas
+                                </button>
+                                <button onclick="selectAnswer(3, 'latino')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🌴 Festas ensolaradas, bailes e gafieiras
+                                </button>
+                                <button onclick="selectAnswer(3, 'moderno')" class="quiz-option p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 text-left transition-all">
+                                    🎨 Estúdios artísticos e palcos contemporâneos
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Resultado -->
+                        <div id="quizResult" class="hidden text-center py-6 space-y-4">
+                            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400 flex items-center justify-center mx-auto text-2xl">
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold font-serif" id="resultTitle">Seu Estilo É...</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto" id="resultDesc"></p>
+                            <button onclick="resetQuiz()" class="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition-all">
+                                <i class="fa-solid fa-rotate-right"></i> Refazer Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="danceModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white dark:bg-dark-900 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 relative custom-scrollbar transform scale-95 transition-transform duration-300">
+            <!-- Botão Fechar -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Conteúdo do Modal -->
+            <div id="modalContent">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex items-center justify-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">
+                    <i class="fa-solid fa-compact-disc"></i>
+                </div>
+                <span class="font-serif text-xl font-bold text-white">Movimento & Arte</span>
+            </div>
+            <p class="text-sm max-w-md mx-auto">"A dança é a linguagem oculta da alma." — Martha Graham</p>
+            <p class="text-xs text-slate-500">&copy; 2026 Movimento & Arte. Criado com HTML, CSS e JavaScript.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DADOS DOS ESTILOS DE DANÇA ---
+        const danceStyles = [
+            {
+                id: 'ballet',
+                name: 'Balé Clássico',
+                category: 'Classico',
+                origin: 'Itália & França',
+                period: 'Século XV (Renascentismo)',
+                image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=800&auto=format&fit=crop',
+                summary: 'Dança técnica caracterizada por posições graciosas, sapatas de ponta e rigorosa precisão corporal.',
+                history: 'O Balé nasceu nas cortes do Renascimento Italiano no século XV e foi aprimorado na França sob o patrocínio do Rei Luís XIV, que fundou a Primeira Academia Real de Dança em 1661. Com vocabulário em francês, o balé estabeleceu as bases técnicas de quase todas as danças ocidentais.',
+                characteristics: ['Uso de sapatilhas de ponta', 'Alinhamento e en dehors (rotação externa das pernas)', 'Narrativas teatrais e dramáticas'],
+                pioneers: ['Luís XIV', 'Marius Petipa', 'Anna Pavlova', 'Vaslav Nijinsky']
+            },
+            {
+                id: 'samba',
+                name: 'Samba de Gafieira / no Pé',
+                category: 'Latino',
+                origin: 'Brasil (Rio de Janeiro)',
+                period: 'Início do Século XX',
+                image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop',
+                summary: 'Símbolo cultural do Brasil com ritmo sincopado, gingado marcante e forte matriz afro-brasileira.',
+                history: 'O Samba tem raízes nos batuques trazidos pelos africanos escravizados para a Bahia e consolidados nas "casas de tias baianas" no Rio de Janeiro no início do século XX. Evoluiu do samba de roda para o samba no pé (Carnaval) e a dança de salão elegante da Gafieira.',
+                characteristics: ['Sincopismo musical marcante', 'Gingado de quadril e rapidez nos pés', 'Elegância e malandragem (Gafieira)'],
+                pioneers: ['Tia Ciata', 'Pixinguinha', 'Carlinhos de Jesus', 'Ismael Silva']
+            },
+            {
+                id: 'hiphop',
+                name: 'Hip-Hop / Breakdancing',
+                category: 'Urbano',
+                origin: 'EUA (Bronx, Nova York)',
+                period: 'Anos 1970',
+                image: 'https://images.unsplash.com/photo-1535525153412-5a42439e2b0d?q=80&w=800&auto=format&fit=crop',
+                summary: 'Expressão cultural urbana composta por Breaking, Popping, Locking e freestyle cheio de energia.',
+                history: 'O Hip-Hop emergiu nas festas de quarteirão do Bronx lideradas por DJs como DJ Kool Herc e Grandmaster Flash. O B-Boying (Breakdancing) tornou-se a expressão corporal dessa cultura, com acrobatas urbanos dançando sobre os "breaks" das músicas de funk e disco.',
+                characteristics: ['Toprock, footwork, freeze e powermoves', 'Improviso e batalhas de dança', 'Forte conexão com a cultura urbana'],
+                pioneers: ['DJ Kool Herc', 'Rock Steady Crew', 'Don Campbell (Locking)', 'Electric Boogaloos']
+            },
+            {
+                id: 'tango',
+                name: 'Tango Argentino',
+                category: 'Latino',
+                origin: 'Argentina & Uruguai',
+                period: 'Fim do Século XIX',
+                image: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?q=80&w=800&auto=format&fit=crop',
+                summary: 'Dança de salão dramática e apaixonada, célebre pela conexão do abraço e footwork intrincado.',
+                history: 'Nascido nos bairros populares de Buenos Aires e Montevidéu entre imigrantes europeus e populações crioulas. Inicialmente visto como marginal, ganhou os salões aristocráticos de Paris nos anos 1910, tornando-se Patrimônio Cultural Imaterial da Humanidade pela UNESCO.',
+                characteristics: ['Abraço íntimo e condução precisa', 'Caminhadas elegantes (Caminata)', 'Ganchos, boleo e cortes'],
+                pioneers: ['Carlos Gardel', 'Astor Piazzolla', 'Juan Carlos Copes']
+            },
+            {
+                id: 'flamenco',
+                name: 'Flamenco',
+                category: 'Latino',
+                origin: 'Espanha (Andaluzia)',
+                period: 'Século XVIII',
+                image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?q=80&w=800&auto=format&fit=crop',
+                summary: 'Arte intensa que combina dança (baile), canto (cante) e violão (toque) recheada de emoção.',
+                history: 'Origina-se da rica fusão de culturas cigana, mourisca, judaica e andaluza no sul da Espanha. O Flamenco expressa alegrias profundas e dores existenciais ("duende") por meio do sapateado ritmado e movimentos corporais expansivos.',
+                characteristics: ['Zapateado preciso e rítmico', 'Braceo (movimentos circulares de braços e mãos)', 'Expressão facial e emocional vívida'],
+                pioneers: ['Carmen Amaya', 'Antonio Gades', 'Sara Baras', 'Paco de Lucía']
+            },
+            {
+                id: 'contemporanea',
+                name: 'Dança Contemporânea',
+                category: 'Moderno',
+                origin: 'EUA & Europa',
+                period: 'Meados do Século XX',
+                image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop',
+                summary: 'Estilo fluido focado no trabalho com o chão, na gravidade e na expressão filosófica do corpo.',
+                history: 'Surgiu como uma evolução e contestação das regras rígidas do balé e da dança moderna. Pioneiras como Martha Graham, Merce Cunningham e Pina Bausch introduziram o uso do peso do corpo, improvisação e integração de arte performática ao movimento.',
+                characteristics: ['Contato-improvisação e trabalho de chão (Floorwork)', 'Uso da respiração e gravidade', 'Liberdade expressiva sem forma fixa'],
+                pioneers: ['Martha Graham', 'Merce Cunningham', 'Pina Bausch', 'Isadora Duncan']
+            }
+        ];
+
+        function renderCards(filter = 'todos', search = '') {
+            const grid = document.getElementById('danceGrid');
+            grid.innerHTML = '';
+
+            const filtered = danceStyles.filter(style => {
+                const matchCategory = (filter === 'todos') || (style.category === filter);
+                const matchSearch = style.name.toLowerCase().includes(search.toLowerCase()) || 
+                                    style.origin.toLowerCase().includes(search.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-solid fa-face-frown text-4xl text-slate-400 mb-3"></i>
+                        <p class="text-slate-500 font-medium">Nenhum estilo de dança encontrado para a busca.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(style => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group';
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="${style.image}" alt="${style.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <span class="absolute top-3 left-3 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">${style.category}</span>
+                        <div class="absolute bottom-3 left-3 right-3 text-white">
+                            <span class="text-xs text-amber-300 font-semibold"><i class="fa-solid fa-location-dot mr-1"></i>${style.origin}</span>
+                            <h3 class="text-xl font-bold font-serif leading-tight">${style.name}</h3>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-3">${style.summary}</p>
+                        <button onclick="openModal('${style.id}')" class="w-full py-2.5 rounded-xl border border-brand-500/30 text-brand-600 dark:text-brand-400 font-semibold hover:bg-brand-600 hover:text-white dark:hover:bg-brand-600 dark:hover:text-white transition-all flex items-center justify-center gap-2 text-sm">
+                            <span>Conhecer História</span>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal Controls
+        function openModal(id) {
+            const style = danceStyles.find(s => s.id === id);
+            if (!style) return;
+
+            const modal = document.getElementById('danceModal');
+            const content = document.getElementById('modalContent');
+
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="relative h-60 rounded-2xl overflow-hidden">
+                        <img src="${style.image}" alt="${style.name}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-white">
+                            <span class="text-xs text-amber-300 font-bold uppercase tracking-wider">${style.period}</span>
+                            <h2 class="text-3xl font-serif font-bold">${style.name}</h2>
+                            <p class="text-sm text-slate-200"><i class="fa-solid fa-earth-americas mr-1"></i> Origem: ${style.origin}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-600 dark:text-brand-400">
+                            <i class="fa-solid fa-book-open"></i> História e Origem
+                        </h4>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">${style.history}</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-600 dark:text-brand-400">
+                            <i class="fa-solid fa-star"></i> Principais Características
+                        </h4>
+                        <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-300 space-y-1">
+                            ${style.characteristics.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-lg mb-2 flex items-center gap-2 text-brand-600 dark:text-brand-400">
+                            <i class="fa-solid fa-users"></i> Pioneiros & Ícones
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${style.pioneers.map(p => `<span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg">${p}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('danceModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.add('scale-95');
+            document.body.style.overflow = 'auto';
+        }
+
+        let audioCtx = null;
+        let isPlaying = false;
+        let rhythmInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(freq, duration, type = 'sine', gainVal = 0.5) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function stopRhythm() {
+            if (rhythmInterval) clearInterval(rhythmInterval);
+            isPlaying = false;
+            document.getElementById('rhythmStatus').innerText = "Simulação interrompida";
+            animateBars(false);
+        }
+
+        function playRhythm(type) {
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            stopRhythm();
+            isPlaying = true;
+
+            const status = document.getElementById('rhythmStatus');
+            animateBars(true);
+
+            let step = 0;
+            if (type === 'samba') {
+                status.innerText = "Tocando: Samba Surdo & Agogô (2/4)";
+                rhythmInterval = setInterval(() => {
+                    if (step % 2 === 0) {
+                        playSound(80, 0.3, 'triangle', 0.8); // Surdo grave
+                    } else {
+                        playSound(120, 0.2, 'sine', 0.6); // Surdo leve
+                    }
+                    if (step % 4 === 1 || step % 4 === 3) {
+                        playSound(800, 0.08, 'sine', 0.3); // Agogô
+                    }
+                    step++;
+                }, 300);
+            } else if (type === 'salsa') {
+                status.innerText = "Tocando: Clave de Salsa 3:2 (180 BPM)";
+                const clavePattern = [0, 3, 6, 10, 12];
+                rhythmInterval = setInterval(() => {
+                    const currentBeat = step % 16;
+                    if (clavePattern.includes(currentBeat)) {
+                        playSound(1000, 0.05, 'square', 0.4); // Clave woodblock sound
+                    }
+                    if (currentBeat % 4 === 0) {
+                        playSound(100, 0.15, 'sine', 0.5); // Conga bass
+                    }
+                    step++;
+                }, 160);
+            } else if (type === 'hiphop') {
+                status.innerText = "Tocando: Hip-Hop Boom Bap (90 BPM)";
+                rhythmInterval = setInterval(() => {
+                    const beat = step % 8;
+                    if (beat === 0 || beat === 6) {
+                        playSound(60, 0.25, 'sine', 0.9); // Bumbo Kick
+                    }
+                    if (beat === 2 || beat === 6) {
+                        playSound(250, 0.15, 'square', 0.4); // Caixa Snare
+                    }
+                    playSound(1200, 0.03, 'sawtooth', 0.1); // Hi-hat constante
+                    step++;
+                }, 333);
+            } else if (type === 'tango') {
+                status.innerText = "Tocando: Tango Marcato Habanera";
+                rhythmInterval = setInterval(() => {
+                    const beat = step % 4;
+                    if (beat === 0) playSound(100, 0.3, 'triangle', 0.8);
+                    if (beat === 1) playSound(150, 0.1, 'sine', 0.4);
+                    if (beat === 2) playSound(120, 0.2, 'sine', 0.6);
+                    if (beat === 3) playSound(180, 0.1, 'sine', 0.4);
+                    step++;
+                }, 400);
+            }
+        }
+
+        function animateBars(active) {
+            const bars = document.querySelectorAll('#visualBars div');
+            bars.forEach(bar => {
+                if (active) {
+                    bar.classList.add('animate-pulse');
+                } else {
+                    bar.classList.remove('animate-pulse');
+                }
+            });
+        }
+
+        let quizAnswers = {};
+
+        function selectAnswer(step, category) {
+            quizAnswers[step] = category;
+            const currentStepEl = document.querySelector(`.quiz-step[data-step="${step}"]`);
+            const nextStepEl = document.querySelector(`.quiz-step[data-step="${step + 1}"]`);
+
+            currentStepEl.classList.add('hidden');
+
+            if (nextStepEl) {
+                nextStepEl.classList.remove('hidden');
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            const resultEl = document.getElementById('quizResult');
+            const titleEl = document.getElementById('resultTitle');
+            const descEl = document.getElementById('resultDesc');
+
+            // Contar voto majoritário
+            const counts = {};
+            Object.values(quizAnswers).forEach(val => counts[val] = (counts[val] || 0) + 1);
+            const winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+
+            const resultData = {
+                classico: {
+                    title: 'Balé & Danças Clássicas',
+                    desc: 'Você aprecia a técnica, a leveza, a disciplina e a harmonia das grandes orquestras e narrativas clássicas!'
+                },
+                urbano: {
+                    title: 'Hip-Hop & Street Dance',
+                    desc: 'Sua energia é pura atitude, improviso e ritmo urbano. Você gosta de se expressar livremente ao som de batidas marcantes!'
+                },
+                latino: {
+                    title: 'Samba, Salsa & Danças de Salão',
+                    desc: 'Você transborda paixão, gingado e adora se conectar com outras pessoas através do ritmo contagiante das músicas latinhas!'
+                },
+                moderno: {
+                    title: 'Dança Contemporânea',
+                    desc: 'Você é um espírito criativo e filosófico, que vê no movimento uma forma de libertação e expressão de sentimentos profundos!'
+                }
+            };
+
+            const res = resultData[winner] || resultData['classico'];
+            titleEl.innerText = res.title;
+            descEl.innerText = res.desc;
+
+            resultEl.classList.remove('hidden');
+        }
+
+        function resetQuiz() {
+            quizAnswers = {};
+            document.getElementById('quizResult').classList.add('hidden');
+            document.querySelectorAll('.quiz-step').forEach((el, index) => {
+                if (index === 0) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+        }
+
+        // Eventos DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+
+            // Filtros de Categoria
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-600/20');
+                        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                    });
+                    e.target.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                    e.target.classList.add('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-600/20');
+
+                    const filter = e.target.getAttribute('data-filter');
+                    const search = document.getElementById('searchInput').value;
+                    renderCards(filter, search);
+                });
+            });
+
+            // Campo de busca
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const activeBtn = document.querySelector('.filter-btn.bg-brand-600');
+                const filter = activeBtn ? activeBtn.getAttribute('data-filter') : 'todos';
+                renderCards(filter, e.target.value);
+            });
+
+            // Dark Mode Toggle
+            const themeToggleBtn = document.getElementById('themeToggle');
+            themeToggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+            });
+
+            // Menu Mobile Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // Fechar modal ao clicar fora
+            document.getElementById('danceModal').addEventListener('click', (e) => {
+                if (e.target.id === 'danceModal') closeModal();
+            });
+        });
+    </script>
+</body>
+</html>
